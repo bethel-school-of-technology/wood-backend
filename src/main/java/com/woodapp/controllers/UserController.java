@@ -1,11 +1,12 @@
-package com.woodapp.woodbackend.api;
+package com.woodapp.controllers;
 
 import java.util.List;
 import java.util.UUID;
-
 import javax.validation.Valid;
-import com.woodapp.woodbackend.model.User;
-import com.woodapp.woodbackend.service.UserService;
+
+import com.woodapp.models.User;
+import com.woodapp.services.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;

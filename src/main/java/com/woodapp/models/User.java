@@ -1,9 +1,7 @@
-package com.woodapp.woodbackend.model;
+package com.woodapp.models;
 
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
@@ -11,9 +9,7 @@ public class User {
     private final UUID id;
 
     @NotNull(message="name cannot be missing or empty")
-    @Size(min=2, message="name must not be less than 2 characters")
-    private final String name;
-
+    private  String name;
     // can't get NotNull nor NotBlank to work
 
     public User(@JsonProperty("id") UUID id, @JsonProperty("name") String name){
@@ -27,6 +23,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
