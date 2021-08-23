@@ -1,4 +1,4 @@
-package com.woodapp.woodbackend;
+package com.woodapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

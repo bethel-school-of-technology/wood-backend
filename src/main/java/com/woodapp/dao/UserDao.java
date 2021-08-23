@@ -1,10 +1,10 @@
-package com.woodapp.woodbackend.dao;
-
-import com.woodapp.woodbackend.model.User;
+package com.woodapp.dao;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.woodapp.models.User;
 
 public interface UserDao {
     

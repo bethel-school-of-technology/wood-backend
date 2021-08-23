@@ -1,11 +1,12 @@
-package com.woodapp.woodbackend.service;
+package com.woodapp.services;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.woodapp.woodbackend.dao.UserDao;
-import com.woodapp.woodbackend.model.User;
+import com.woodapp.dao.UserDao;
+import com.woodapp.models.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

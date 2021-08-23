@@ -1,11 +1,12 @@
-package com.woodapp.woodbackend.dao;
+package com.woodapp.dao;
 
-import com.woodapp.woodbackend.model.User;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import com.woodapp.models.User;
 
 @Repository("insertDatabase")
 public class UserDataAccessService implements UserDao {
