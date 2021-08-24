@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import com.woodapp.models.User;
 import com.woodapp.services.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,13 +44,13 @@ public class UserController {
             .orElse(null);
     }
 
-    @DeleteMapping(path = "{id}")
-    public void deleteUserById(@PathVariable("id") UUID id){
-        userService.deleteUser(id);
-    }
-
     @PutMapping(path = "{id}")
     public void updateUser(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User UserToUpdate){
         userService.updateUser(id, UserToUpdate);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteUserById(@PathVariable("id") UUID id){
+        userService.deleteUser(id);
     }
 }
