@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import com.woodapp.models.User;
 
-@Repository("insertDatabase")
+@Repository("mySQL")
 public class UserDataAccessService implements UserDao {
     
     private static List<User> DB = new ArrayList<>();

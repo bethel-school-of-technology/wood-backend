@@ -17,7 +17,7 @@ public class UserService {
     private final UserDao userDao;
 
     @Autowired
-    public UserService(@Qualifier("insertDatabase") UserDao userDao){
+    public UserService(@Qualifier("mySQL") UserDao userDao){
         this.userDao = userDao;
     }
 
