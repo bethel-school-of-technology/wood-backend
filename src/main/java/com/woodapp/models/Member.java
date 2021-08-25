@@ -4,18 +4,17 @@ import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.GenerationType;
-// import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 @Entity
 @NotNull(message="field cannot be missing or empty")
 public class Member {
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // private int id;
-    private final UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String firstName;
     private String lastName;
     private String sex;
@@ -25,7 +24,7 @@ public class Member {
     private String address;
     
     
-    public Member(@JsonProperty("id") UUID id, @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName, @JsonProperty("sex") String sex, @JsonProperty("age") int age, @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber, @JsonProperty("address") String address) {
+    public Member(@JsonProperty("id") int id, @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName, @JsonProperty("sex") String sex, @JsonProperty("age") int age, @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber, @JsonProperty("address") String address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -36,7 +35,7 @@ public class Member {
         this.address = address;
     }  
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
