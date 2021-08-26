@@ -1,10 +1,10 @@
-package com.woodapp.registered_members;
+package com.woodapp.gym_members;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="members")
-public class Member {
+public class GymMembers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,7 +17,7 @@ public class Member {
     private String address;
      
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     public void setId(Integer id) {
