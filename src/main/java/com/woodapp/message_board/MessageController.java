@@ -25,8 +25,8 @@ public class MessageController {
         return foundMessages;
 	}
 	
-	 @GetMapping("/message-board/{post_id}")
-	 public ResponseEntity<Message> getMessage(@PathVariable("post_id") Integer post_id) {
+	 @GetMapping("/message-board/{id}")
+	 public ResponseEntity<Message> getMessage(@PathVariable("id") Integer post_id) {
 	    Message foundMessage = dao.findById(post_id).orElse(null);
 
 	    if(foundMessage == null) {
@@ -41,8 +41,8 @@ public class MessageController {
 	        return ResponseEntity.ok(createdMessage);
 	    }
 	 
-	 @PutMapping("/message-board/{post_id}")
-		public Message updateMessage(@PathVariable("post_id") Integer post_id, @RequestBody Message message)
+	 @PutMapping("/message-board/{id}")
+		public Message updateMessage(@PathVariable("id") Integer post_id, @RequestBody Message message)
 				throws Exception {
 			Message foundMessage = dao.findById(post_id).orElse(null);
 			foundMessage.setName(message.getName());
@@ -54,7 +54,7 @@ public class MessageController {
 		}
 
 	    @DeleteMapping("/message-board/{id}")
-	    public ResponseEntity<Message> deleteMessage(@PathVariable("post_id") Integer post_id) {
+	    public ResponseEntity<Message> deleteMessage(@PathVariable("id") Integer post_id) {
 	        Message foundMessage = dao.findById(post_id).orElse(null);
 
 	        if(foundMessage == null) {

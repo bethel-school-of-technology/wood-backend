@@ -14,19 +14,17 @@ public class RegisteredUsers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer id;
 	
-	@NotNull
-	@Size(min=2, max=30)
+	@NotNull(message = "First name cannot be null")
 	public String firstName;
 	
-	@NotNull
-	@Size(min=2, max=30)
+	@NotNull(message = "Last name cannot be null")
 	public String lastName;
 	
-	@Email
+	@Email(message = "Must use a valid email")
 	public String email;
 	
 	@NotNull
-	@Size(min=6, max=20)
+	@Size(min=6, max=20, message = "Password must be between 6-20 characters")
 	public String password;
 
 	public Integer getId() {
