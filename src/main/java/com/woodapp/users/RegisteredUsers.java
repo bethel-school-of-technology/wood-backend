@@ -1,17 +1,32 @@
 package com.woodapp.users;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 @Entity
 @Table(name="user_data")
-public class User {
+public class RegisteredUsers {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer id; 
+	public Integer id;
+	
+	@NotNull
+	@Size(min=2, max=30)
 	public String firstName;
+	
+	@NotNull
+	@Size(min=2, max=30)
 	public String lastName;
-	public String username;
+	
+	@Email
+	public String email;
+	
+	@NotNull
+	@Size(min=6, max=20)
 	public String password;
 
 	public Integer getId() {
@@ -32,11 +47,11 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getPassword() {
 		return password;

@@ -1,7 +1,5 @@
 package com.woodapp.users;
 
-import com.woodapp.users.User;
-import com.woodapp.users.UserRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,23 +12,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RequestMapping("/api/")
 @RestController
-public class UserController {
+public class RegisteredUsersController {
     
     @Autowired
-    UserRepository dao;
+    RegisteredUsersRepository dao;
     
     @GetMapping("/user")
-	public List<User> getAllUsers() {
-		List<User> foundAllUsers = dao.findAll();
+	public List<RegisteredUsers> getAllUsers() {
+		List<RegisteredUsers> foundAllUsers = dao.findAll();
 		return foundAllUsers;
 	}
     
     @GetMapping("/user/{id}")
-	public ResponseEntity<User> getOneUser(@PathVariable("id") Integer id) {
-		User foundUser = dao.findById(id).orElse(null);
+	public ResponseEntity<RegisteredUsers> getOneUser(@PathVariable("id") Integer id) {
+		RegisteredUsers foundUser = dao.findById(id).orElse(null);
 		if (foundUser == null) {
 			return ResponseEntity.notFound().header("User", "Nothing found with that id").build();
 		}
@@ -38,30 +35,30 @@ public class UserController {
 	}
     
     @PostMapping("/user")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
-		User createdUser = dao.save(user);
+    public ResponseEntity<RegisteredUsers> addUser(@RequestBody RegisteredUsers registeredUsers) {
+		RegisteredUsers createdUser = dao.save(registeredUsers);
 		return ResponseEntity.ok(createdUser);
 	}
     
     @PutMapping("/user/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) throws Exception {
-		User updateUser = dao.findById(id).orElse(null);
+	public ResponseEntity<RegisteredUsers> updateUser(@PathVariable("id") Integer id, @RequestBody RegisteredUsers registeredUsers) throws Exception {
+		RegisteredUsers updateUser = dao.findById(id).orElse(null);
 		if (updateUser == null) {
 			return ResponseEntity.notFound().header("User","Nothing found with that id").build();
 		}
 		else {
-			updateUser.setFirstName(user.getFirstName());
-			updateUser.setLastName(user.getLastName());
-			updateUser.setUsername(user.getUsername());
-			updateUser.setPassword(user.getPassword());
+			updateUser.setFirstName(registeredUsers.getFirstName());
+			updateUser.setLastName(registeredUsers.getLastName());
+			updateUser.setEmail(registeredUsers.getEmail());
+			updateUser.setPassword(registeredUsers.getPassword());
 			dao.save(updateUser);
 		}
 		return ResponseEntity.ok(updateUser);
 	}
     
     @DeleteMapping("/user/{id}")
-	public ResponseEntity<User> deleteUser(@PathVariable("id") Integer id) {
-		User foundUser = dao.findById(id).orElse(null);
+	public ResponseEntity<RegisteredUsers> deleteUser(@PathVariable("id") Integer id) {
+		RegisteredUsers foundUser = dao.findById(id).orElse(null);
 
 		if (foundUser == null) {
 			return ResponseEntity.notFound().header("User", "Nothing found with that username").build();

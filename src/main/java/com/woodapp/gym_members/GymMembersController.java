@@ -1,7 +1,5 @@
-package com.woodapp.registered_members;
+package com.woodapp.gym_members;
 
-import com.woodapp.registered_members.MemberRepository;
-import com.woodapp.registered_members.Member;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/")
 @RestController
-public class MemberController {
+public class GymMembersController {
     
 	@Autowired
-    MemberRepository dao;
+    GymMembersRepository dao;
 
    @GetMapping("/member")
-   public List<Member> getAllMembers() {
-	   List<Member> foundAllMembers = dao.findAll();
+   public List<GymMembers> getAllMembers() {
+	   List<GymMembers> foundAllMembers = dao.findAll();
 	   return foundAllMembers;
    }
 
    @GetMapping("/member/{id}")
-   public ResponseEntity<Member> getMember(@PathVariable("id") Integer id) {
-	   Member foundMember = dao.findById(id).orElse(null);
+   public ResponseEntity<GymMembers> getMember(@PathVariable("id") Integer id) {
+	   GymMembers foundMember = dao.findById(id).orElse(null);
 	   
 	   if(foundMember == null) {
 		   return ResponseEntity.notFound().header("Member", "Nothing found with that id").build();
@@ -38,33 +36,33 @@ public class MemberController {
 	   }
    
    @PostMapping("/member")
-   public ResponseEntity<Member> addMember(@RequestBody Member member) {
-       Member createdMember = dao.save(member);
+   public ResponseEntity<GymMembers> addMember(@RequestBody GymMembers gymMembers) {
+       GymMembers createdMember = dao.save(gymMembers);
        return ResponseEntity.ok(createdMember);
    }
    
    @PutMapping("/member/{id}")
-	public ResponseEntity<Member> updateMember(@PathVariable("id") Integer id, @RequestBody Member member) throws Exception {
-		Member updateMember = dao.findById(id).orElse(null);
+	public ResponseEntity<GymMembers> updateMember(@PathVariable("id") Integer id, @RequestBody GymMembers gymMembers) throws Exception {
+		GymMembers updateMember = dao.findById(id).orElse(null);
 		if (updateMember == null) {
 			return ResponseEntity.notFound().header("Member","Nothing found with that id").build();
 		}
 		else {
-			updateMember.setFirstName(member.getFirstName());
-			updateMember.setLastName(member.getLastName());
-			updateMember.setGender(member.getGender());
-			updateMember.setAge(member.getAge());
-			updateMember.setEmail(member.getEmail());
-			updateMember.setPhoneNumber(member.getPhoneNumber());
-			updateMember.setAddress(member.getAddress());
+			updateMember.setFirstName(gymMembers.getFirstName());
+			updateMember.setLastName(gymMembers.getLastName());
+			updateMember.setGender(gymMembers.getGender());
+			updateMember.setAge(gymMembers.getAge());
+			updateMember.setEmail(gymMembers.getEmail());
+			updateMember.setPhoneNumber(gymMembers.getPhoneNumber());
+			updateMember.setAddress(gymMembers.getAddress());
 			dao.save(updateMember);
 		}
 		return ResponseEntity.ok(updateMember);
 	}
    
    @DeleteMapping("/member/{id}")
-   public ResponseEntity<Member> deleteMember(@PathVariable("id") Integer id) {
-       Member foundMember = dao.findById(id).orElse(null);
+   public ResponseEntity<GymMembers> deleteMember(@PathVariable("id") Integer id) {
+       GymMembers foundMember = dao.findById(id).orElse(null);
 
        if(foundMember == null) {
            return ResponseEntity.notFound().header("Member","Nothing found with that id").build();

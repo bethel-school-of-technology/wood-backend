@@ -1,7 +1,5 @@
 package com.woodapp.message_board;
 
-import com.woodapp.message_board.Message;
-import com.woodapp.message_board.MessageRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/")
+@RequestMapping("/api")
 @RestController
 public class MessageController {
 	
@@ -27,9 +25,9 @@ public class MessageController {
         return foundMessages;
 	}
 	
-	 @GetMapping("/message-board/{id}")
-	 public ResponseEntity<Message> getMessage(@PathVariable("id") Integer id) {
-	    Message foundMessage = dao.findById(id).orElse(null);
+	 @GetMapping("/message-board/{post_id}")
+	 public ResponseEntity<Message> getMessage(@PathVariable("post_id") Integer post_id) {
+	    Message foundMessage = dao.findById(post_id).orElse(null);
 
 	    if(foundMessage == null) {
 	    	return ResponseEntity.notFound().header("Message","Nothing found with that id").build();
@@ -39,26 +37,25 @@ public class MessageController {
 
 	 @PostMapping("/message-board")
 	 public ResponseEntity<Message> postMessage(@RequestBody Message message) {
-
-	        
 	        Message createdMessage = dao.save(message);
 	        return ResponseEntity.ok(createdMessage);
 	    }
 	 
-	 @PutMapping("/message-board/{id}")
-		public Message updateMessage(@PathVariable("id") Integer id, @RequestBody Message message)
+	 @PutMapping("/message-board/{post_id}")
+		public Message updateMessage(@PathVariable("post_id") Integer post_id, @RequestBody Message message)
 				throws Exception {
-			Message foundMessage = dao.findById(id).orElse(null);
+			Message foundMessage = dao.findById(post_id).orElse(null);
 			foundMessage.setName(message.getName());
-			foundMessage.setContent(message.getContent());
+			foundMessage.setPost_content(message.getPost_content());
+			foundMessage.setDate_created(message.getDate_created());
 			dao.save(foundMessage);
 
 			return foundMessage;
 		}
 
 	    @DeleteMapping("/message-board/{id}")
-	    public ResponseEntity<Message> deleteMessage(@PathVariable("id") Integer id) {
-	        Message foundMessage = dao.findById(id).orElse(null);
+	    public ResponseEntity<Message> deleteMessage(@PathVariable("post_id") Integer post_id) {
+	        Message foundMessage = dao.findById(post_id).orElse(null);
 
 	        if(foundMessage == null) {
 	            return ResponseEntity.notFound().header("Message","Nothing found with that id").build();
