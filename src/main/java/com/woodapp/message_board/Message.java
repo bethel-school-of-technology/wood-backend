@@ -1,6 +1,13 @@
 package com.woodapp.message_board;
 
-import javax.persistence.*;
+import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="messages")
@@ -9,9 +16,12 @@ public class Message {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+	@NotNull
     private String name;
+	@NotNull
     private String post_content;
-    private String date_created;
+	
+	private LocalDateTime timeStamp = LocalDateTime.now();
     
     public Integer getId() {
 		return id;
@@ -31,11 +41,10 @@ public class Message {
 	public void setPost_content(String post_content) {
 		this.post_content = post_content;
 	}
-	public String getDate_created() {
-		return date_created;
+	public LocalDateTime getTimeStamp() {
+		return timeStamp;
 	}
-	public void setDate_created(String date_created) {
-		this.date_created = date_created;
+	public void setTimeStamp(LocalDateTime timeStamp) {
+		this.timeStamp = timeStamp;
 	}
-    
 }

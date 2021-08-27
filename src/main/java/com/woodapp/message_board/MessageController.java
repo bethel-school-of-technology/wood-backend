@@ -47,7 +47,7 @@ public class MessageController {
 			Message foundMessage = dao.findById(id).orElse(null);
 			foundMessage.setName(message.getName());
 			foundMessage.setPost_content(message.getPost_content());
-			foundMessage.setDate_created(message.getDate_created());
+			foundMessage.setTimeStamp(message.getTimeStamp());
 			dao.save(foundMessage);
 
 			return foundMessage;
