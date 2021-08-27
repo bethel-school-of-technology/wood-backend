@@ -8,16 +8,16 @@ public class Message {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer post_id;
+    private Integer id;
     private String name;
     private String post_content;
     private String date_created;
     
-    public Integer getPostId() {
-		return post_id;
+    public Integer getId() {
+		return id;
 	}
-	public void setPostId(Integer post_id) {
-		this.post_id = post_id;
+	public void setPostId(Integer id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;
