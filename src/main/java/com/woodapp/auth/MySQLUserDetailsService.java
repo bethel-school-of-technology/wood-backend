@@ -8,30 +8,30 @@
 //import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.stereotype.Service;
 //
-//import com.woodapp.users.UserRepository;
+//import com.woodapp.users.RegisteredUsersRepository;
 //
 //@Service
 //public class MySQLUserDetailsService implements UserDetailsService {
 //
 //  @Autowired
-//  private UserRepository userRepository;
+//  private RegisteredUsersRepository registeredUsersRepository;
 //
 //  @Autowired
 //  private PasswordEncoder passwordEncoder;
 //
 //  @Override
 //  public UserDetails loadUserByUsername(String username) {
-//    com.backendproject.models.User user = userRepository.findByUsername(username);
-//    if (user == null) {
-//      throw new UsernameNotFoundException(username);
+//    com.woodapp.users.RegisteredUsers users = registeredUsersRepository.findByEmail(email);
+//    if (users == null) {
+//      throw new UsernameNotFoundException(email);
 //    }
-//    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities());
+//    return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthorities());
 //  }
 //
 //  public UserDetails Save(User newUser) {
 //    (newUser).setPassword(passwordEncoder.encode(newUser.getPassword()));
-//    User savedUser = userRepository.save(newUser);
-//    return new org.springframework.security.core.userdetails.User(savedUser.getUsername(), savedUser.getPassword(), getAuthorities());
+//    User savedUser = registeredUsersRepository.save(newUser);
+//    return new org.springframework.security.core.userdetails.User(savedUser.getEmail(), savedUser.getPassword(), getAuthorities());
 //  }
 //
 //  private List<SimpleGrantedAuthority> getAuthorities() {
