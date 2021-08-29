@@ -2,6 +2,7 @@ package com.woodapp.message_board;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,14 +14,38 @@ import javax.validation.constraints.NotNull;
 @Table(name="messages")
 public class Message {
 	
+	public Message(Integer id, @NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.post_content = post_content;
+		this.timeStamp = timeStamp;
+	}
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(
+            name = "id",
+            updatable = false
+    )
     private Integer id;
+	
 	@NotNull
+	@Column(
+            name="post_author_name",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String name;
+	
 	@NotNull
+	@Column(
+            name="post_content",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String post_content;
 	
+	@Column()
 	private LocalDateTime timeStamp = LocalDateTime.now();
     
     public Integer getId() {
@@ -47,4 +72,10 @@ public class Message {
 	public void setTimeStamp(LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
+	@Override
+	public String toString() {
+		return "Message [id=" + id + ", name=" + name + ", post_content=" + post_content + ", timeStamp=" + timeStamp
+				+ "]";
+	}
+	
 }
