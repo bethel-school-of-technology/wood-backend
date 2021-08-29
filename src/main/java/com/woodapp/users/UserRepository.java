@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<Users, Integer>{
 	Users findByEmail(String email);
 
-//	org.springframework.security.core.userdetails.User save(org.springframework.security.core.userdetails.User newUser);
+//org.springframework.security.core.userdetails.User save(org.springframework.security.core.userdetails.User newUser);
 }

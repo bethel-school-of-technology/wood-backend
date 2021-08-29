@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/")
+@RequestMapping("/api")
 @RestController
 public class RegistrationController {
     
@@ -34,7 +34,7 @@ public class RegistrationController {
 		return ResponseEntity.ok(foundUser);
 	}
     
-    @PostMapping("/user")
+    @PostMapping("/user")		
     public ResponseEntity<Users> addUser(@RequestBody Users users) {
 		Users createdUser = dao.save(users);
 		return ResponseEntity.ok(createdUser);

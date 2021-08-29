@@ -24,8 +24,8 @@ public class MessageController {
 		List<Message> foundMessages = dao.findAll();
         return foundMessages;
 	}
-	
-	 @GetMapping("/message-board/{post_id}")
+	    
+	 @GetMapping("/message-board/{id}")
 	 public ResponseEntity<Message> getMessage(@PathVariable("id") Integer id) {
 	    Message foundMessage = dao.findById(id).orElse(null);
 
@@ -43,6 +43,7 @@ public class MessageController {
 	 
 	 @PutMapping("/message-board/{id}")
 		public Message updateMessage(@PathVariable("id") Integer id, @RequestBody Message message)
+
 				throws Exception {
 			Message foundMessage = dao.findById(id).orElse(null);
 			foundMessage.setName(message.getName());
@@ -56,6 +57,7 @@ public class MessageController {
 	    @DeleteMapping("/message-board/{id}")
 	    public ResponseEntity<Message> deleteMessage(@PathVariable("id") Integer id) {
 	        Message foundMessage = dao.findById(id).orElse(null);
+
 
 	        if(foundMessage == null) {
 	            return ResponseEntity.notFound().header("Message","Nothing found with that id").build();
