@@ -2,8 +2,10 @@ package com.woodapp.users;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity(name="Users")
@@ -27,6 +29,7 @@ public class Users {
     )
 	private Integer id;
 
+	@NotNull
 	@Size(min=2, max=30)
 	@Column(
             name="first_name",
@@ -35,6 +38,7 @@ public class Users {
     )
 	private String firstName;
 
+	@NotNull
 	@Size(min=2, max=30)
 	@Column(
             name="last_name",
@@ -42,7 +46,8 @@ public class Users {
             columnDefinition = "TEXT"
     )
 	private String lastName;
-	
+
+	@NotNull
 	@Email
 	@Column(
             name="email",
@@ -52,26 +57,26 @@ public class Users {
     )
 	private String email;
 
+	@NotNull
 	@Size(min=6, max=20)
 	@Column(
             name="password",
             nullable = false,
-            columnDefinition = "TEXT",
             unique = true
     )
 	private String password;
 
 	private String gender;
-	@Size(min=6, max=8)
 	private Integer birthday;
 
+	@NotNull
 	@Column(
             name="phone_number",
-            nullable = false,
-            columnDefinition = "Integer"
+            nullable = false
     )
 	private Integer phoneNumber;
 
+	@NotNull
 	@Column(
             name="street_address",
             nullable = false
@@ -79,7 +84,7 @@ public class Users {
     private String streetAddress;
 	private String state;
 	private Integer zipCode;
-	private LocalDate signUpDate;
+	private LocalDate signUpDate = LocalDate.now();
 
 	public Users() {
 	}
