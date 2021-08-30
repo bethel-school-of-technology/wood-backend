@@ -47,8 +47,12 @@ public class Message {
 	
 	@Column()
 	private LocalDateTime timeStamp = LocalDateTime.now();
-    
-    public Integer getId() {
+
+	public Message() {
+
+	}
+
+	public Integer getId() {
 		return id;
 	}
 	public void setPostId(Integer id) {

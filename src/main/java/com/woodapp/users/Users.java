@@ -2,41 +2,34 @@ package com.woodapp.users;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-@Entity
-@Table(name="user_data")
+@Entity(name="user_data")
+@Table(
+		name="user_data",
+		uniqueConstraints = {
+				@UniqueConstraint(name = "user_email_unique", columnNames = "email")
+		}
+)
 public class Users {
-	
-	
-	
-	public Users(Integer id, @NotNull @Size(min = 2, max = 30) String firstName,
-			@NotNull @Size(min = 2, max = 30) String lastName, @Email String email,
-			@NotNull @Size(min = 6, max = 20) String password, String gender, Integer birthday,
-			@NotNull Integer phoneNumber, @NotNull String address) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.phoneNumber = phoneNumber;
-		this.address = address;
-	}
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(
+			name = "user_sequence",
+			sequenceName = "user_sequence",
+			allocationSize = 1
+	)
+	@GeneratedValue(
+			strategy = GenerationType.SEQUENCE,
+			generator = "user_sequence"
+	)
 	@Column(
             name = "id",
             updatable = false
     )
 	public Integer id;
-	
-	@NotNull
+
 	@Size(min=2, max=30)
 	@Column(
             name="first_name",
@@ -44,8 +37,7 @@ public class Users {
             columnDefinition = "TEXT"
     )
 	public String firstName;
-	
-	@NotNull
+
 	@Size(min=2, max=30)
 	@Column(
             name="last_name",
@@ -62,8 +54,7 @@ public class Users {
             unique = true
     )
 	public String email;
-	
-	@NotNull
+
 	@Size(min=6, max=20)
 	@Column(
             name="password",
@@ -73,9 +64,7 @@ public class Users {
     )
 	public String password;
 	
-	@Column(
-            name="gender"
-    )
+	@Column(name="gender")
 	private String gender;
 	
 	@Column(
@@ -84,23 +73,52 @@ public class Users {
             columnDefinition = "Integer"
     )
 	private Integer birthday;
-	
-	@NotNull
+
 	@Column(
-            name="age",
+            name="phone_number",
             nullable = false,
             columnDefinition = "Integer"
     )
 	private Integer phoneNumber;
-	
-	@NotNull
+
 	@Column(
             name="street_address",
             nullable = false,
-            columnDefinition = "Integer"
+            columnDefinition = "TEXT"
     )
-	//will probably need to add more data type variables for address
-    private String address;
+    private String streetAddress;
+
+	@Column(
+			name="state",
+			nullable = false,
+			columnDefinition = "TEXT"
+	)
+	private String state;
+
+	@Column(
+			name="zip_code",
+			nullable = false,
+			columnDefinition = "Integer"
+	)
+	private Integer zipCode;
+
+
+	public Users() {
+	}
+
+	public Users(String firstName, String lastName, String email, String password, String gender, Integer birthday,
+				 Integer phoneNumber, String streetAddress, String state, Integer zipCode) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.phoneNumber = phoneNumber;
+		this.streetAddress = streetAddress;
+		this.state = state;
+		this.zipCode = zipCode;
+	}
 
 	public Integer getId() {
 		return id;
@@ -150,13 +168,26 @@ public class Users {
     public void setPhoneNumber(Integer phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-	@Override
+	public String getStreetAddress() {
+		return streetAddress;
+	}
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public Integer getZipCode() {
+		return zipCode;
+	}
+	public void setZipCode(Integer zipCode) {
+		this.zipCode = zipCode;
+	}
+
+    @Override
 	public String toString() {
 		return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", password=" + password + ", gender=" + gender + ", birthday=" + birthday + ", phoneNumber="
