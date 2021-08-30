@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity
+@Entity(name="Message")
 @Table(name="messages")
 public class Message {
 	
@@ -49,7 +49,6 @@ public class Message {
 	private LocalDateTime timeStamp = LocalDateTime.now();
 
 	public Message() {
-
 	}
 
 	public Integer getId() {
@@ -76,10 +75,14 @@ public class Message {
 	public void setTimeStamp(LocalDateTime timeStamp) {
 		this.timeStamp = timeStamp;
 	}
+
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", name=" + name + ", post_content=" + post_content + ", timeStamp=" + timeStamp
-				+ "]";
+		return "Message{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", post_content='" + post_content + '\'' +
+				", timeStamp=" + timeStamp +
+				'}';
 	}
-	
 }

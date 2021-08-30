@@ -3,15 +3,12 @@ package com.woodapp.users;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 
-@Entity(name="user_data")
-@Table(
-		name="user_data",
-		uniqueConstraints = {
-				@UniqueConstraint(name = "user_email_unique", columnNames = "email")
-		}
-)
+@Entity(name="Users")
+@Table(name="users")
+
 public class Users {
 
 	@Id
@@ -28,7 +25,7 @@ public class Users {
             name = "id",
             updatable = false
     )
-	public Integer id;
+	private Integer id;
 
 	@Size(min=2, max=30)
 	@Column(
@@ -36,7 +33,7 @@ public class Users {
             nullable = false,
             columnDefinition = "TEXT"
     )
-	public String firstName;
+	private String firstName;
 
 	@Size(min=2, max=30)
 	@Column(
@@ -44,16 +41,16 @@ public class Users {
             nullable = false,
             columnDefinition = "TEXT"
     )
-	public String lastName;
+	private String lastName;
 	
 	@Email
 	@Column(
             name="email",
             nullable = false,
             columnDefinition = "TEXT",
-            unique = true
+			unique = true
     )
-	public String email;
+	private String email;
 
 	@Size(min=6, max=20)
 	@Column(
@@ -62,16 +59,10 @@ public class Users {
             columnDefinition = "TEXT",
             unique = true
     )
-	public String password;
-	
-	@Column(name="gender")
+	private String password;
+
 	private String gender;
-	
-	@Column(
-            name="birthday",
-            nullable = false,
-            columnDefinition = "Integer"
-    )
+	@Size(min=6, max=8)
 	private Integer birthday;
 
 	@Column(
@@ -83,31 +74,18 @@ public class Users {
 
 	@Column(
             name="street_address",
-            nullable = false,
-            columnDefinition = "TEXT"
+            nullable = false
     )
     private String streetAddress;
-
-	@Column(
-			name="state",
-			nullable = false,
-			columnDefinition = "TEXT"
-	)
 	private String state;
-
-	@Column(
-			name="zip_code",
-			nullable = false,
-			columnDefinition = "Integer"
-	)
 	private Integer zipCode;
-
+	private LocalDate signUpDate;
 
 	public Users() {
 	}
 
 	public Users(String firstName, String lastName, String email, String password, String gender, Integer birthday,
-				 Integer phoneNumber, String streetAddress, String state, Integer zipCode) {
+				 Integer phoneNumber, String streetAddress, String state, Integer zipCode, LocalDate signUpDate) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -118,6 +96,7 @@ public class Users {
 		this.streetAddress = streetAddress;
 		this.state = state;
 		this.zipCode = zipCode;
+		this.signUpDate = signUpDate;
 	}
 
 	public Integer getId() {
@@ -186,13 +165,28 @@ public class Users {
 	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
-
-    @Override
-	public String toString() {
-		return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", gender=" + gender + ", birthday=" + birthday + ", phoneNumber="
-				+ phoneNumber + ", address=" + address + "]";
+	public LocalDate getSignUpDate() {
+		return signUpDate;
 	}
-    
-    
+	public void setSignUpDate(LocalDate signUpDate) {
+		this.signUpDate = signUpDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Users{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", gender='" + gender + '\'' +
+				", birthday=" + birthday +
+				", phoneNumber=" + phoneNumber +
+				", streetAddress='" + streetAddress + '\'' +
+				", state='" + state + '\'' +
+				", zipCode=" + zipCode +
+				", signUpDate=" + signUpDate +
+				'}';
+	}
 }

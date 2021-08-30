@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RequestMapping("/api")
 @RestController
 public class RegistrationController {
@@ -54,7 +55,10 @@ public class RegistrationController {
 			updateUser.setGender(users.getGender());
 			updateUser.setBirthday(users.getBirthday());
 			updateUser.setPhoneNumber(users.getPhoneNumber());
-			updateUser.setAddress(users.getAddress());
+			updateUser.setStreetAddress(users.getStreetAddress());
+			updateUser.setState(users.getState());
+			updateUser.setZipCode(users.getZipCode());
+			updateUser.setSignUpDate(users.getSignUpDate());
 			dao.save(updateUser);
 		}
 		return ResponseEntity.ok(updateUser);
