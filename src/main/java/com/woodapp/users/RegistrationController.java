@@ -1,7 +1,10 @@
 package com.woodapp.users;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.woodapp.registration.RegistrationRequest;
+import com.woodapp.registration.RegistrationService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api")
 @RestController
+@AllArgsConstructor
 public class RegistrationController {
-    
-    @Autowired
-    UserRepository dao;
+
+	AppUserRepository dao;
+	private RegistrationService registrationService;
     
     @GetMapping("/user")
 	public List<Users> getAllUsers() {
@@ -75,14 +79,12 @@ public class RegistrationController {
 		}
 		return ResponseEntity.ok().build();
 	}
-    
-//    @Autowired
-//	private MySQLUserDetailsService userService;
-//	
-//	@PostMapping("/user/register")
-//	public void register(@RequestBody User newUser) {
-//		userService.Save(newUser);
-//	}
+
+	@PostMapping("/user/registration")
+	public String register(@RequestBody RegistrationRequest request){
+    	return registrationService.register(request);
+	}
+
 }
     
     

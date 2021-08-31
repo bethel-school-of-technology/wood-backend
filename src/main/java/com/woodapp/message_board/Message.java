@@ -1,5 +1,7 @@
 package com.woodapp.message_board;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -12,43 +14,34 @@ import javax.validation.constraints.NotNull;
 
 @Entity(name="Message")
 @Table(name="messages")
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Message {
+
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id", updatable=false)
+    private Integer id;
 	
+	@NotNull
+	@Column(name="post_author_name", nullable=false, columnDefinition="TEXT")
+    private String name;
+	
+	@NotNull
+	@Column(name="post_content", nullable=false, columnDefinition="TEXT")
+    private String post_content;
+
+	private LocalDateTime timeStamp = LocalDateTime.now();
+
 	public Message(Integer id, @NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.post_content = post_content;
 		this.timeStamp = timeStamp;
-	}
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(
-            name = "id",
-            updatable = false
-    )
-    private Integer id;
-	
-	@NotNull
-	@Column(
-            name="post_author_name",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String name;
-	
-	@NotNull
-	@Column(
-            name="post_content",
-            nullable = false,
-            columnDefinition = "TEXT"
-    )
-    private String post_content;
-	
-	@Column()
-	private LocalDateTime timeStamp = LocalDateTime.now();
-
-	public Message() {
 	}
 
 	public Integer getId() {
