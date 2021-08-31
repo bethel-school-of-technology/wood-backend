@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @RestController
 public class MessageController {
-	
-	@Autowired
+
 	MessageRepository dao;
 	
 	@GetMapping("/message-board")
