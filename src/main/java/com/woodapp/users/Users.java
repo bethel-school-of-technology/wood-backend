@@ -6,42 +6,49 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Getter
+@Setter
 @EqualsAndHashCode
-@Entity(name="Users")
-@Table(name="users")
+@ToString
+@Entity
+@Table(name="USERS")
 
 public class Users implements UserDetails{
 
 	@Id
-	@SequenceGenerator(name="user_sequence", sequenceName="user_sequence", allocationSize=1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="user_sequence")
-
-	@Column(name="id", updatable=false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="app_user_id", updatable=false)
 	private Integer id;
 
 	@NotNull
 	@Size(min=2, max=30)
-	@Column(name="first_name", nullable=false, columnDefinition="TEXT")
+	@Column(name="first_name", nullable=false)
 	private String firstName;
 
 	@NotNull
 	@Size(min=2, max=30)
-	@Column(name="last_name", nullable=false, columnDefinition="TEXT")
+	@Column(name="last_name", nullable=false)
 	private String lastName;
 
 	@NotNull
 	@Email
-	@Column(name="email", nullable=false, columnDefinition="TEXT", unique = true)
+	@Column(name="email", nullable=false, unique = true)
 	private String email;
 
+	@NotNull
+	@Column(name="username", nullable=false, unique = true)
 	private String username;
 
 	@NotNull
@@ -50,7 +57,9 @@ public class Users implements UserDetails{
 	private String password;
 
 	private String gender;
-	private Integer birthday;
+
+	@Temporal(TemporalType.DATE)
+	private Date birthday;
 
 	@NotNull
 	@Column(name="phone_number", nullable=false)
@@ -70,7 +79,7 @@ public class Users implements UserDetails{
 	public Users() {
 	}
 
-	public Users(String firstName, String lastName, String email, String username, String password, String gender, Integer birthday,
+	public Users(String firstName, String lastName, String email, String username, String password, String gender, Date birthday,
 				 Integer phoneNumber, String streetAddress, String state, Integer zipCode, LocalDate signUpDate,
 				 AppUserRole appUserRole, Boolean locked, Boolean enabled) {
 		this.firstName = firstName;
@@ -124,10 +133,10 @@ public class Users implements UserDetails{
     public void setGender(String gender) {
         this.gender = gender;
     }
-    public Integer getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
-    public void setBirthday(Integer birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
     public Integer getPhoneNumber() {
