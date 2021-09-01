@@ -12,8 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity(name="Message")
-@Table(name="messages")
+@Entity
+@Table(name="MESSAGES")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -23,15 +23,15 @@ public class Message {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id", updatable=false)
+	@Column(name="post_id", updatable=false)
     private Integer id;
 	
 	@NotNull
-	@Column(name="post_author_name", nullable=false, columnDefinition="TEXT")
+	@Column(name="post_author_name", nullable=false)
     private String name;
 	
 	@NotNull
-	@Column(name="post_content", nullable=false, columnDefinition="TEXT")
+	@Column(name="post_content", nullable=false)
     private String post_content;
 
 	private LocalDateTime timeStamp = LocalDateTime.now();
