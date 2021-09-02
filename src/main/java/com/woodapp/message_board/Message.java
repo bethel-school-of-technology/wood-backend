@@ -36,6 +36,7 @@ public class Message {
 
 	private LocalDateTime timeStamp = LocalDateTime.now();
 
+
 	public Message(Integer id, @NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
 		super();
 		this.id = id;
@@ -69,13 +70,4 @@ public class Message {
 		this.timeStamp = timeStamp;
 	}
 
-	@Override
-	public String toString() {
-		return "Message{" +
-				"id=" + id +
-				", name='" + name + '\'' +
-				", post_content='" + post_content + '\'' +
-				", timeStamp=" + timeStamp +
-				'}';
-	}
 }
