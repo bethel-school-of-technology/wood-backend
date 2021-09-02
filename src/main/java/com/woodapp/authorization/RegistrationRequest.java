@@ -1,4 +1,4 @@
-package com.woodapp.registration;
+package com.woodapp.authorization;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

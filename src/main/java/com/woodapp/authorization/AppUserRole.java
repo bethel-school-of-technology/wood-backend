@@ -1,4 +1,4 @@
-package com.woodapp.registration;
+package com.woodapp.authorization;
 
 public enum AppUserRole {
     USER,
