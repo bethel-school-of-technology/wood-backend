@@ -7,14 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
 @Setter
@@ -23,11 +18,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Entity
 @Table(name="USERS")
 
-public class User implements UserDetails{
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="app_user_id", updatable=false)
+	@Column(name="user_id", updatable=false)
 	private Integer id;
 
 	@NotNull
@@ -55,23 +50,24 @@ public class User implements UserDetails{
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
-	@NotNull
 	@Column(name="phone_number", nullable=false)
+	@Size(min=7, max=10)
 	private Integer phoneNumber;
 
-	@NotNull
 	@Column(name="street_address", nullable=false)
     private String streetAddress;
+	private String city;
 	private String state;
 	private Integer zipCode;
 	private LocalDate signUpDate = LocalDate.now();
-	@Enumerated(EnumType.STRING)
-	private AppUserRole appUserRole;
+	private String membershipType;
 	private Boolean locked;
 	private Boolean enabled;
+	@Enumerated(EnumType.STRING)
+	private AppUserRole appUserRole;
 
 	public User(String firstName, String lastName, String email, String password, String gender, Date birthday,
-				Integer phoneNumber, String streetAddress, String state, Integer zipCode, LocalDate signUpDate,
+				Integer phoneNumber, String streetAddress, String city, String state, Integer zipCode, LocalDate signUpDate, String membershipType,
 				AppUserRole appUserRole) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -81,53 +77,15 @@ public class User implements UserDetails{
 		this.birthday = birthday;
 		this.phoneNumber = phoneNumber;
 		this.streetAddress = streetAddress;
+		this.city = city;
 		this.state = state;
 		this.zipCode = zipCode;
 		this.signUpDate = signUpDate;
 		this.appUserRole = appUserRole;
+		this.membershipType = membershipType;
 	}
 
 	public User() {
-
 	}
 
-	public User(String firstName, String lastName, String email, String password, AppUserRole user) {
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
-		return Collections.singletonList(authority);
-	}
-
-	@Override
-	public String getPassword() {
-		return password;
-	}
-	@Override
-	public String getUsername() {
-		return email;
-	}
-	public String getFirstName(){
-		return firstName;
-	}
-	public String getLastName(){
-		return lastName;
-	}
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isAccountNonLocked() {
-		return !locked;
-	}
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isEnabled() {
-		return enabled;
-	}
 }
