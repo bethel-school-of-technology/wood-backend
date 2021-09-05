@@ -2,35 +2,19 @@ package com.woodapp.users;
 
 import java.util.List;
 
-import com.woodapp.authorization.AppUserService;
-import com.woodapp.authorization.AuthenticationResponse;
-import com.woodapp.authorization.RegistrationRequest;
-import com.woodapp.authorization.RegistrationService;
-import com.woodapp.util.JwtUtil;
+import com.woodapp.authorization.MyUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/api")
 @RestController
 @AllArgsConstructor
-public class UserRegistrationController {
+public class UserRegistrationController  {
 
 	UserRepository dao;
-	@Autowired
-	private RegistrationService registrationService;
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private AppUserService appUserService;
-	@Autowired
-	private JwtUtil jwtTokenUtil;
 
     @GetMapping("/user")
 	public List<User> getAllUsers() {
@@ -48,29 +32,30 @@ public class UserRegistrationController {
 	}
 
     @PostMapping("/user")
-    public ResponseEntity<User> addUser(@RequestBody User users) {
-		User createdUser = dao.save(users);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+		User createdUser = dao.save(user);
 		return ResponseEntity.ok(createdUser);
 	}
 
     @PutMapping("/user/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User users) throws Exception {
+	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) throws Exception {
 		User updateUser = dao.findById(id).orElse(null);
 		if (updateUser == null) {
 			return ResponseEntity.notFound().header("User","Nothing found with that id").build();
 		}
 		else {
-			updateUser.setFirstName(users.getFirstName());
-			updateUser.setLastName(users.getLastName());
-			updateUser.setEmail(users.getEmail());
-			updateUser.setPassword(users.getPassword());
-			updateUser.setGender(users.getGender());
-			updateUser.setBirthday(users.getBirthday());
-			updateUser.setPhoneNumber(users.getPhoneNumber());
-			updateUser.setStreetAddress(users.getStreetAddress());
-			updateUser.setState(users.getState());
-			updateUser.setZipCode(users.getZipCode());
-			updateUser.setSignUpDate(users.getSignUpDate());
+			updateUser.setFirstName(user.getFirstName());
+			updateUser.setLastName(user.getLastName());
+			updateUser.setEmail(user.getEmail());
+			updateUser.setPassword(user.getPassword());
+			updateUser.setGender(user.getGender());
+			updateUser.setBirthday(user.getBirthday());
+			updateUser.setPhoneNumber(user.getPhoneNumber());
+			updateUser.setStreetAddress(user.getStreetAddress());
+			updateUser.setCity(user.getCity());
+			updateUser.setState(user.getState());
+			updateUser.setZipCode(user.getZipCode());
+			updateUser.setSignUpDate(user.getSignUpDate());
 			dao.save(updateUser);
 		}
 		return ResponseEntity.ok(updateUser);
@@ -88,21 +73,27 @@ public class UserRegistrationController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/user/registration")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody RegistrationRequest request) throws Exception {
-		try {
-			authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-			);
-		}   catch (BadCredentialsException e){
-			throw new Exception("Incorrect email or password", e);
+	@Autowired
+	private MyUserDetailsService userService;
+	@Autowired
+	private UserRepository userRepository;
+
+//	@PostMapping("/user/register")
+//	public void register(@RequestBody User newUser) {
+//		userService.Save(newUser);
+//	}
+
+	@PostMapping("/user/register")
+	public void createUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+		User foundUser = userRepository.findByEmail(email);
+		if (foundUser == null) {
+			User newUser = new User();
+			newUser.setEmail(email);
+			newUser.setPassword(password);
+			userService.Save(newUser);
 		}
-
-		final UserDetails userDetails = appUserService.loadUserByUsername(request.getEmail());
-		final String jwt = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new AuthenticationResponse(jwt));
 	}
 }
+
     
     
