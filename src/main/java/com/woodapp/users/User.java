@@ -8,7 +8,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
 import java.time.LocalDate;
 
 @Getter
@@ -26,35 +25,32 @@ public class User implements Serializable {
 	private Integer id;
 
 	@NotNull
-	@Size(min=2, max=30)
-	@Column(name="first_name", nullable=false)
+	@Column(nullable=false)
 	private String firstName;
 
 	@NotNull
-	@Size(min=2, max=30)
-	@Column(name="last_name", nullable=false)
+	@Column(nullable=false)
 	private String lastName;
 
 	@NotNull
 	@Email
-	@Column(name="email", nullable=false, unique = true)
+	@Column(nullable=false, unique = true)
 	public String email;
 
 	@NotNull
-	@Size(min=6, max=20)
-	@Column(name="password", nullable=false, unique=true)
+//	@Size(min=5, max=20)
+	@Column(nullable=false, unique=true)
 	private String password;
 
 	private String gender;
 
-	@Temporal(TemporalType.DATE)
-	private Date birthday;
+//	(we'll need a placeholder like MM/DD/YY)
+	private String birthday;
 
-	@Column(name="phone_number", nullable=false)
-	@Size(min=7, max=10)
+	@Column()
 	private Integer phoneNumber;
 
-	@Column(name="street_address", nullable=false)
+	@Column(nullable=false)
     private String streetAddress;
 	private String city;
 	private String state;
@@ -66,7 +62,7 @@ public class User implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private AppUserRole appUserRole;
 
-	public User(String firstName, String lastName, String email, String password, String gender, Date birthday,
+	public User(String firstName, String lastName, String email, String password, String gender, String birthday,
 				Integer phoneNumber, String streetAddress, String city, String state, Integer zipCode, LocalDate signUpDate, String membershipType,
 				AppUserRole appUserRole) {
 		this.firstName = firstName;

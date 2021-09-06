@@ -1,4 +1,4 @@
-package com.woodapp.message_board;
+package com.woodapp.post_comment;
 
 import lombok.*;
 
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Message {
+public class Comment {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -37,7 +37,7 @@ public class Message {
 	private LocalDateTime timeStamp = LocalDateTime.now();
 
 
-	public Message(Integer id, @NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
+	public Comment(Integer id, @NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
 		super();
 		this.id = id;
 		this.name = name;

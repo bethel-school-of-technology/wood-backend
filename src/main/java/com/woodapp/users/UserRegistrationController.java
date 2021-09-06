@@ -9,9 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequestMapping("/api")
+@RequestMapping("/api/")
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserRegistrationController  {
 
 	UserRepository dao;
@@ -78,21 +79,21 @@ public class UserRegistrationController  {
 	@Autowired
 	private UserRepository userRepository;
 
-//	@PostMapping("/user/register")
-//	public void register(@RequestBody User newUser) {
-//		userService.Save(newUser);
-//	}
-
 	@PostMapping("/user/register")
-	public void createUser(@RequestParam("email") String email, @RequestParam("password") String password) {
-		User foundUser = userRepository.findByEmail(email);
-		if (foundUser == null) {
-			User newUser = new User();
-			newUser.setEmail(email);
-			newUser.setPassword(password);
-			userService.Save(newUser);
-		}
+	public void register(@RequestBody User newUser) {
+		userService.Save(newUser);
 	}
+
+//	@PostMapping("/user/register")
+//	public void createUser(@RequestParam("email") String email, @RequestParam("password") String password) {
+//		User foundUser = userRepository.findByEmail(email);
+//		if (foundUser == null) {
+//			User newUser = new User();
+//			newUser.setEmail(email);
+//			newUser.setPassword(password);
+//			userService.Save(newUser);
+//		}
+//	}
 }
 
     
