@@ -4,13 +4,12 @@ package com.woodapp.authorization;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woodapp.users.User;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static com.woodapp.authorization.SecurityConstants.*;
 import javax.servlet.FilterChain;
@@ -21,13 +20,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
 
-        setFilterProcessesUrl("/api/user/login");
+        setFilterProcessesUrl("/api/login");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
+                            creds.getUsername(),
                             creds.getPassword(),
                             new ArrayList<>())
             );
@@ -52,16 +52,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException {
+                                            Authentication auth) throws IOException, ServletException {
         String token = JWT.create()
-                .withSubject(((User) auth.getPrincipal()).getEmail())
+                .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SECRET.getBytes()));
-        String body = ((User) auth.getPrincipal()).getEmail() + " " + token;
-
-        res.getWriter().write(body);
-        res.getWriter().flush();
+        res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
     }
+
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest req,
                                               HttpServletResponse res,

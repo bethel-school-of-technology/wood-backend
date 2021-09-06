@@ -8,7 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,8 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private final UserRepository userRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
@@ -36,7 +35,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails Save(User newUser) {
-        (newUser).setPassword(passwordEncoder.encode(newUser.getPassword()));
+        (newUser).setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         User savedUser = userRepository.save(newUser);
         return new org.springframework.security.core.userdetails.User(savedUser.getEmail(), savedUser.getPassword(), getAuthorities());
     }
