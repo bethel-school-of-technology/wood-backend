@@ -1,4 +1,4 @@
-package com.woodapp.authorization;
+package com.woodapp.auth;
 
 public class SecurityConstants {
     public static final String SECRET = "SECRET_KEY";

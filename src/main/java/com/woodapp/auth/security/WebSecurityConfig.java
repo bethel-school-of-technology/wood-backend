@@ -1,8 +1,8 @@
-package com.woodapp.security;
+package com.woodapp.auth.security;
 
-import com.woodapp.authorization.MyUserDetailsService;
-import com.woodapp.authorization.JWTAuthenticationFilter;
-import com.woodapp.authorization.JWTAuthorizationFilter;
+import com.woodapp.services.MyUserDetailsService;
+import com.woodapp.auth.JWTAuthenticationFilter;
+import com.woodapp.auth.JWTAuthorizationFilter;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import static com.woodapp.authorization.SecurityConstants.*;
+import static com.woodapp.auth.SecurityConstants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -41,7 +41,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.GET, SIGN_UP_URL).permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/user").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
@@ -62,8 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowedOrigins(Arrays.asList("*"));
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST"));
-        corsConfig.setAllowCredentials(true);
-        corsConfig.addAllowedHeader("Authorization");
+//        corsConfig.setAllowCredentials(true);
+//        corsConfig.addAllowedHeader("Authorization");
         corsConfig.applyPermitDefaultValues();
         corsConfig.setExposedHeaders(Arrays.asList("Authorization"));
         source.registerCorsConfiguration("/**", corsConfig);

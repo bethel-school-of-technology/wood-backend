@@ -1,8 +1,10 @@
-package com.woodapp.users;
+package com.woodapp.controllers;
 
 import java.util.List;
 
-import com.woodapp.authorization.MyUserDetailsService;
+import com.woodapp.services.MyUserDetailsService;
+import com.woodapp.models.User;
+import com.woodapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-public class UserRegistrationController  {
+public class UserController {
 
 	UserRepository dao;
 
@@ -38,7 +40,7 @@ public class UserRegistrationController  {
 		return ResponseEntity.ok(createdUser);
 	}
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/admin/user/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) throws Exception {
 		User updateUser = dao.findById(id).orElse(null);
 		if (updateUser == null) {
@@ -62,7 +64,7 @@ public class UserRegistrationController  {
 		return ResponseEntity.ok(updateUser);
 	}
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/admin/user/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable("id") Integer id) {
 		User foundUser = dao.findById(id).orElse(null);
 
@@ -84,16 +86,10 @@ public class UserRegistrationController  {
 		userService.Save(newUser);
 	}
 
-//	@PostMapping("/user/register")
-//	public void createUser(@RequestParam("email") String email, @RequestParam("password") String password) {
-//		User foundUser = userRepository.findByEmail(email);
-//		if (foundUser == null) {
-//			User newUser = new User();
-//			newUser.setEmail(email);
-//			newUser.setPassword(password);
-//			userService.Save(newUser);
-//		}
-//	}
+
+
+
+
 }
 
     

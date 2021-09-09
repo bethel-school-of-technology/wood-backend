@@ -1,10 +1,9 @@
-package com.woodapp.users;
+package com.woodapp.repositories;
 
+import com.woodapp.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
 	User findByEmail(String email);
-
-//	org.springframework.security.core.userdetails.User save(org.springframework.security.core.userdetails.User newUser);
 
 }

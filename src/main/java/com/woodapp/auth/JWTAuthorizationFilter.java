@@ -1,4 +1,4 @@
-package com.woodapp.authorization;
+package com.woodapp.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import static com.woodapp.authorization.SecurityConstants.*;
+import static com.woodapp.auth.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 

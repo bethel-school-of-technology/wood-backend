@@ -1,9 +1,8 @@
-package com.woodapp.authorization;
+package com.woodapp.services;
 
-import com.woodapp.users.UserRepository;
-import com.woodapp.users.User;
+import com.woodapp.repositories.UserRepository;
+import com.woodapp.models.User;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,16 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 public class MyUserDetailsService implements UserDetailsService {
 
-//    private final static String USER_NOT_FOUND_MSG = "User with that email %s not found";
-
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        com.woodapp.users.User user = userRepository.findByEmail(email);
+        com.woodapp.models.User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
@@ -35,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails Save(User newUser) {
-        (newUser).setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
+        newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         User savedUser = userRepository.save(newUser);
         return new org.springframework.security.core.userdetails.User(savedUser.getEmail(), savedUser.getPassword(), getAuthorities());
     }
@@ -45,6 +40,8 @@ public class MyUserDetailsService implements UserDetailsService {
         authList.add(new SimpleGrantedAuthority("ROLE_USER"));
         return authList;
     }
+
+    //    private final static String USER_NOT_FOUND_MSG = "User with that email %s not found";
 
 //    public String signUpUser(User user) {
 //        boolean userExists = userRepository.findByEmail(user.getEmail())
