@@ -1,4 +1,4 @@
-package com.woodapp.models.roles;
+package com.woodapp.models;
 
 public enum ERole {
     ROLE_USER,

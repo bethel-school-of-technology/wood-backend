@@ -1,18 +1,15 @@
 package com.woodapp.models;
 
 import lombok.*;
-
 import java.time.LocalDateTime;
-
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="posted_comments")
+@Table(name="posts")
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
+
 public class Post {
 
 	//Need to map the USERS table and the Comments table using their ids**
@@ -29,10 +26,11 @@ public class Post {
 	@Column(name="post_content", nullable=false)
     private String post_content;
 
-	private LocalDateTime timeStamp = LocalDateTime.now();
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "post_id")
+	private List<User> users;
 
-	@OneToMany
-	private User user;
+	private LocalDateTime timeStamp = LocalDateTime.now();
 
 	public Post(@NotNull String name, @NotNull String post_content, LocalDateTime timeStamp) {
 		super();
@@ -60,4 +58,13 @@ public class Post {
 		this.timeStamp = timeStamp;
 	}
 
+	@Override
+	public String toString() {
+		return "Post{" +
+				"name='" + name + '\'' +
+				", post_content='" + post_content + '\'' +
+				", users=" + users +
+				", timeStamp=" + timeStamp +
+				'}';
+	}
 }

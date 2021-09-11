@@ -8,20 +8,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //This should be used for any comment box we have on the site - especially for the Water Cooler component
-@RequestMapping("/api")
+@RequestMapping("/api/post")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class PostController {
 
 	PostRepository dao;
 	
-	@GetMapping("/post")
+	@GetMapping("/find/all")
 	public List<Post> getPosts() {
 		List<Post> foundPosts = dao.findAll();
         return foundPosts;
 	}
 
-	 @GetMapping("/post/{id}")
+	 @GetMapping("/find/{id}")
 	 public ResponseEntity<Post> getPost(@PathVariable("id") Integer id) {
 	    Post foundPost = dao.findById(id).orElse(null);
 	    if(foundPost == null) {
@@ -30,13 +30,13 @@ public class PostController {
 	        return ResponseEntity.ok(foundPost);
 	    }
 
-	 @PostMapping("/post")
+	 @PostMapping("/add")
 	 public ResponseEntity<Post> postOnePost(@RequestBody Post post) {
 	        Post createdPost = dao.save(post);
 	        return ResponseEntity.ok(createdPost);
 	    }
 	 
-	 @PutMapping("/post/{id}")
+	 @PutMapping("/update/{id}")
 		public Post updatePost(@PathVariable("id") Integer id, @RequestBody Post post)
 				throws Exception {
 			Post foundPost = dao.findById(id).orElse(null);
@@ -47,7 +47,7 @@ public class PostController {
 			return foundPost;
 		}
 
-	    @DeleteMapping("/post/{id}")
+	    @DeleteMapping("/delete/{id}")
 	    public ResponseEntity<Post> deletePost(@PathVariable("id") Integer id) {
 	        Post foundPost = dao.findById(id).orElse(null);
 
