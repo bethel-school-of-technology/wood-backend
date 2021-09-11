@@ -1,26 +1,32 @@
 package com.woodapp.models;
 
-import com.woodapp.models.roles.UserRole;
+import com.woodapp.payload.request.RegisterRequest;
 import lombok.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
+@EqualsAndHashCode
 @Entity
-@Table(name="users")
-public class User {
+@Table(name="users", uniqueConstraints = { @UniqueConstraint(columnNames = "email")})
+public class User  {
 
 	@Id
+	@Column(name = "user_id", updatable=false)
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(updatable=false)
 	private Integer id;
 
 	@NotNull
@@ -59,23 +65,28 @@ public class User {
 
 	//will need to be a drop-down menu on the form
 	private String membershipType;
-	private Boolean locked;
-	private Boolean enabled;
 
-	private Integer gym_id;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "gym_id")
+	private Gym gym;
 	//This is to map the USERS table and the GYM_INFO table using their ids**
-//	@OneToOne
-//	@JoinColumn(name = "gym_info_id", referencedColumnName = "gym_info_id")
-//	private GymInfo gymInfo;
-//
-//	@ManyToMany(fetch = FetchType.LAZY)
-//	@JoinTable(	name = "user_roles",
-//			joinColumns = @JoinColumn(name = "user_id"),
-//			inverseJoinColumns = @JoinColumn(name = "role_id"))
-//	private Set<UserRole> roles = new HashSet<>();
+
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "user_id")
+//	private Role roles;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+
+
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 
 	public User() {
-		super();
 	}
 
 	public User(String firstName, String lastName, String email, String password, String gender, String birthday,
@@ -95,20 +106,14 @@ public class User {
 		this.membershipType = membershipType;
 	}
 
-
-	public boolean isAccountNonExpired(){
-		return true;
+	public User(String email, String encode, String birthday, RegisterRequest registerRequest, String gender, String streetAddress, String state, Integer zipCode) {
 	}
 
-	public boolean isAccountNonLocked(){
-		return true;
+	@Bean(name="entityManagerFactory")
+	public LocalSessionFactoryBean sessionFactory() {
+		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+
+		return sessionFactory;
 	}
 
-	public boolean isCredentialsNonExpired(){
-		return true;
-	}
-
-	public boolean isEnabled(){
-		return true;
-	}
 }

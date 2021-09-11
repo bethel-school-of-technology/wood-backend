@@ -2,24 +2,28 @@ package com.woodapp.models;
 
 import lombok.*;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode
 
 @Entity
-@Table(name = "gym_info")
-public class GymInfo {
+@Table(name = "gyms")
+public class Gym {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name="gym_id", updatable=false)
+    @Column(name="gym_id", nullable = false)
     private Integer id;
 
-    @Column(name = "gym_name", nullable = false, unique = true)
-    private String gymName;
+    @Column(nullable = false, unique = true)
+    private String name;
 
     @Column(name = "phone_number", nullable = false)
     private Integer phoneNumber;
@@ -36,7 +40,12 @@ public class GymInfo {
     @Column(name = "zip_code", nullable = false)
     private Integer zipCode;
 
-    @OneToOne
-    private User user;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "gym_id")
+    private List<User> users;
+
+   // @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+   // @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    //private User user;
 
 }
