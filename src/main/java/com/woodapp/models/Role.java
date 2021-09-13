@@ -1,8 +1,15 @@
 package com.woodapp.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Optional;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -21,31 +28,4 @@ public class Role {
 //        return getClass().hashCode();
 //    }
 
-    public Role() {
-    }
-
-    public Role(ERole roleName) {
-        
-        this.roleName = roleName;
-    }
-    public Integer getId() {
-        
-        return id;
-    }
-    public void setId(Integer id) {
-        
-        this.id = id;
-    }
-    public ERole getRoleName() {
-        
-        return roleName;
-    }
-    public void setRoleName(ERole roleName) {
-        
-        this.roleName = roleName;
-    }
-
-    public Optional<Object> stream() {
-        return null;
-    }
 }

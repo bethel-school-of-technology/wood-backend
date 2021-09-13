@@ -1,4 +1,4 @@
-package com.woodapp.payload.response;
+package com.woodapp.utils;
 
 public class MessageResponse {
     private String message;
