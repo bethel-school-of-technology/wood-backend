@@ -1,6 +1,6 @@
 package com.woodapp.models;
 
-import com.woodapp.payload.request.RegisterRequest;
+
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -10,16 +10,12 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Getter
 @Setter
-@ToString
-@AllArgsConstructor
-@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Table(name="users", uniqueConstraints = { @UniqueConstraint(columnNames = "email")})
 public class User  {
@@ -36,6 +32,10 @@ public class User  {
 	@NotNull
 	@Column(nullable=false)
 	private String lastName;
+
+	@NotNull
+	@Column(nullable=false)
+	private String username;
 
 	@NotNull
 	@Email
@@ -69,30 +69,34 @@ public class User  {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "gym_id")
 	private Gym gym;
-	//This is to map the USERS table and the GYM_INFO table using their ids**
+	//This is to map the USERS table and the GYM table using their ids**
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Collection<Role> roles = new ArrayList<>();
+
 
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "user_id")
 //	private Role roles;
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+//	@ManyToMany(fetch = FetchType.LAZY)
+//	@JoinTable(	name = "user_roles",
+//			joinColumns = @JoinColumn(name = "user_id"),
+//			inverseJoinColumns = @JoinColumn(name = "role_id"))
+//	private Set<Role> roles = new HashSet<>();
 
 
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
+//	@Override
+//	public int hashCode() {
+//		return getClass().hashCode();
+//	}
 
-	public User() {
-	}
 
-	public User(String firstName, String lastName, String email, String password, String gender, String birthday,
-				Integer phoneNumber, String streetAddress, String city, String state, Integer zipCode, LocalDate signUpDate, String membershipType) {
+	public User(String firstName, String lastName, String username, String email, String password, String gender, String birthday,
+				Integer phoneNumber, String streetAddress, String city, String state, Integer zipCode, LocalDate signUpDate,
+				String membershipType, Collection<Role> roles) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.gender = gender;
@@ -104,15 +108,12 @@ public class User  {
 		this.zipCode = zipCode;
 		this.signUpDate = signUpDate;
 		this.membershipType = membershipType;
-	}
-
-	public User(String email, String encode, String birthday, RegisterRequest registerRequest, String gender, String streetAddress, String state, Integer zipCode) {
+		this.roles = roles;
 	}
 
 	@Bean(name="entityManagerFactory")
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-
 		return sessionFactory;
 	}
 
