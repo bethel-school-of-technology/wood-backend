@@ -43,7 +43,7 @@ public class User  {
 	public String email;
 
 	@NotNull
-	@Size(max=20)
+//	@Size(max=20)
 	@Column(nullable=false, unique=true)
 	private String password;
 

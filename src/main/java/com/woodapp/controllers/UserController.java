@@ -37,19 +37,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/api/user/")
+@RequestMapping("/api/")
 public class UserController {
 
 	UserRepository userRepo;
 	RoleRepository roleRepo;
 	private final UserService userService;
 
-    @GetMapping("/find/all")
+    @GetMapping("/user/find/all")
 	public ResponseEntity<List<User>> getAllUsers() {
 		return ResponseEntity.ok().body(userService.getUsers());
 	}
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/user/find/{id}")
 	public ResponseEntity<User> getOneUser(@PathVariable("id") Integer id) {
 		User foundUser = userRepo.findById(id).orElse(null);
 		if (foundUser == null) {
@@ -64,14 +64,14 @@ public class UserController {
 //		return ResponseEntity.ok(createdUser);
 //	}
 
-	@PostMapping("/add")
+	@PostMapping("/user/add")
 	public ResponseEntity<User> saveUser(@RequestBody User user) {
-		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
+		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/add").toUriString());
 		return ResponseEntity.created(uri).body(userService.saveUser(user));
 		//A 201 response is more precise than 200 ok
 	}
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/user/update/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) throws Exception {
 		User updateUser = userRepo.findById(id).orElse(null);
 		if (updateUser == null) {
@@ -95,7 +95,7 @@ public class UserController {
 		return ResponseEntity.ok(updateUser);
 	}
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/user/delete/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable("id") Integer id) {
 		User foundUser = userRepo.findById(id).orElse(null);
 		if (foundUser == null) {
@@ -124,7 +124,7 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/register")
+	@PostMapping("/user/register")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void registerUser(@RequestParam("username") String username, @RequestParam("password") String password) {
 		User foundUser = userRepo.findByUsername(username);
@@ -177,7 +177,6 @@ public class UserController {
 			throw new RuntimeException("Refresh token is missing");
 		}
 	}
-
 }
 
 @Data

@@ -28,13 +28,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(email);
         if(user == null){
             log.error("User not found in the database");
-            throw new UsernameNotFoundException("User Not Found with that email: " + username);
+            throw new UsernameNotFoundException("User Not Found with that email: " + email);
         } else {
-            log.info("User found in the database: {}", username);
+            log.info("User found in the database: {}", email);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {
