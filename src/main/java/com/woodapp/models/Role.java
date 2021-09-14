@@ -17,9 +17,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 20)
-    private ERole roleName;
+//    @Enumerated(EnumType.STRING)
+//    @Column(length = 20)
+    private String name;
 
 //    @OneToMany(mappedBy = "roles", cascade = CascadeType.ALL)
 //    @JoinColumn(name = "id")

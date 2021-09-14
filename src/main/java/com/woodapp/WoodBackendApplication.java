@@ -28,10 +28,7 @@ public class WoodBackendApplication {
 		SpringApplication.run(WoodBackendApplication.class, args);
 	}
 
-	@Bean
-	PasswordEncoder passwordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+
 
 //	@Bean
 //	CommandLineRunner run(UserService userService) {

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.*;
@@ -28,6 +29,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+//        auth.inMemoryAuthentication()
+//                .withUser("ironman").password(passwordEncoder().encode("stark"))
+//                .roles("ROLE_USER")
+//                .and()
+//                .withUser("blackwidow").password(passwordEncoder().encode("scarlett")).roles("ROLE_ADMIN");
     }
 
     @Override
@@ -53,10 +59,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 //    @Bean
 //    CorsConfigurationSource corsConfigurationSource() {
 //        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//
 //        CorsConfiguration corsConfig = new CorsConfiguration();
 //        corsConfig.setAllowedOrigins(Arrays.asList("*"));
 //        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST"));

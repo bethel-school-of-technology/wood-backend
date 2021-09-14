@@ -158,7 +158,7 @@ public class UserController {
 						.withSubject(user.getUsername())
 						.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
 						.withIssuer(request.getRequestURL().toString())
-						.withClaim("roles", user.getRoles().stream().map(Role::getRoleName).collect(Collectors.toList()))
+						.withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
 						.sign(algorithm);
 				Map<String, String> tokens = new HashMap<>();
 				tokens.put("access_token", access_token);
