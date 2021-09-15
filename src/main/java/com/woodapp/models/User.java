@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.Size;
 import java.util.*;
 
-
+@Data
 @Getter
 @Setter
 @NoArgsConstructor

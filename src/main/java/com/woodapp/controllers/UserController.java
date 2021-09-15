@@ -19,7 +19,9 @@ import com.woodapp.repositories.RoleRepository;
 import com.woodapp.repositories.UserRepository;
 import com.woodapp.services.UserService;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,20 +60,20 @@ public class UserController {
 		return ResponseEntity.ok(foundUser);
 	}
 
-//    @PostMapping("/add")
-//    public ResponseEntity<User> addUser(@RequestBody User user) {
-//		User createdUser = dao.save(user);
-//		return ResponseEntity.ok(createdUser);
-//	}
-
-	@PostMapping("/user/add")
-	public ResponseEntity<User> saveUser(@RequestBody User user) {
-		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/add").toUriString());
-		return ResponseEntity.created(uri).body(userService.saveUser(user));
-		//A 201 response is more precise than 200 ok
+    @PostMapping("/user")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+		User createdUser = userRepo.save(user);
+		return ResponseEntity.ok(createdUser);
 	}
 
-    @PutMapping("/user/update/{id}")
+//	@PostMapping("/user/add")
+//	public ResponseEntity<User> saveUser(@RequestBody User user) {
+//		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/add").toUriString());
+//		return ResponseEntity.created(uri).body(userService.saveUser(user));
+//		//A 201 response is more precise than 200 ok
+//	}
+
+    @PutMapping("/user/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User user) throws Exception {
 		User updateUser = userRepo.findById(id).orElse(null);
 		if (updateUser == null) {
@@ -182,6 +184,8 @@ public class UserController {
 }
 
 @Data
+@Getter
+@Setter
 class RoleToUserForm {
 	private String username;
 	private String roleName;
