@@ -49,7 +49,6 @@ public class User  {
 
 	private String gender;
 
-//	(we'll need a placeholder like MM/DD/YY on the form)
 	private String birthday;
 
 	@Column(nullable = false)
@@ -62,8 +61,6 @@ public class User  {
 	private String state;
 	private Integer zipCode;
 	private LocalDate signUpDate = LocalDate.now();
-
-	//will need to be a drop-down menu on the form
 	private String membershipType;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -73,22 +70,6 @@ public class User  {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
-
-
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
-//	private Role roles;
-//	@ManyToMany(fetch = FetchType.LAZY)
-//	@JoinTable(	name = "user_roles",
-//			joinColumns = @JoinColumn(name = "user_id"),
-//			inverseJoinColumns = @JoinColumn(name = "role_id"))
-//	private Set<Role> roles = new HashSet<>();
-
-
-//	@Override
-//	public int hashCode() {
-//		return getClass().hashCode();
-//	}
 
 
 	public User(String firstName, String lastName, String username, String email, String password, String gender, String birthday,

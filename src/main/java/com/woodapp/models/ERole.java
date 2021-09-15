@@ -5,3 +5,5 @@ public enum ERole {
     ROLE_MANAGER,
     ROLE_ADMIN
 }
+
+//not used but can be
