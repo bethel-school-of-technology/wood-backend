@@ -126,24 +126,26 @@ public class UserController {
 
 	@PostMapping("/user/register")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public void registerUser(@RequestParam("username") String username, @RequestParam("password") String password) {
-		User foundUser = userRepo.findByUsername(username);
-		if (foundUser == null) {
-			User newUser = new User();
-			newUser.setUsername(username);
-			newUser.setPassword(password);
-			userService.saveUser(newUser);
-		}
+	public void registerUser(@Valid @RequestBody User user) {
+		User newUser = new User();
+		userService.saveUser(newUser);
+//		User foundUser = userRepo.findByUsername(username);
+//		if (foundUser == null) {
+//			User newUser = new User();
+//			newUser.setUsername(username);
+//			newUser.setPassword(password);
+//			userService.saveUser(newUser);
+//		}
 	}
 
-//	@PostMapping("/register")
+//	@PostMapping("/user/register")
 //	@ResponseStatus(code = HttpStatus.CREATED)
 //	public void ResponseEntity<User> register(@Valid @RequestBody User user) {
 //    	userService.saveUser(user);
-//		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+//		return ResponseEntity.ok(log.info("User registered successfully!"));
 //	}
 
-	@GetMapping("token/refresh")
+	@GetMapping("/token/refresh")
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String authorizationHeader = request.getHeader(AUTHORIZATION);
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
@@ -156,7 +158,7 @@ public class UserController {
 				User user = userService.getUser(username);
 				String access_token = JWT.create()
 						.withSubject(user.getUsername())
-						.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+						.withExpiresAt(new Date(System.currentTimeMillis() + 45 * 60 * 1000))
 						.withIssuer(request.getRequestURL().toString())
 						.withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
 						.sign(algorithm);
@@ -183,7 +185,15 @@ public class UserController {
 class RoleToUserForm {
 	private String username;
 	private String roleName;
+
+
+	public RoleToUserForm(String username, String roleName) {
+		this.username = username;
+		this.roleName = roleName;
+	}
 }
+
+
 
     
     

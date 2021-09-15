@@ -8,6 +8,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import javax.validation.constraints.Size;
 import java.util.*;
@@ -71,6 +72,10 @@ public class User  {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Collection<Role> roles = new ArrayList<>();
 
+	@Override
+	public int hashCode() {
+		return getClass().hashCode();
+	}
 
 	public User(String firstName, String lastName, String username, String email, String password, String gender, String birthday,
 				Integer phoneNumber, String streetAddress, String city, String state, Integer zipCode, LocalDate signUpDate,

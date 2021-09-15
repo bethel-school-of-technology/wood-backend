@@ -35,16 +35,17 @@ public class WoodBackendApplication {
 			userService.saveRole(new Role(null, "ROLE_MANAGER"));
 			userService.saveRole(new Role(null, "ROLE_ADMIN"));
 
-			//userService.saveUser(new User(null, "Tony", "Stark", "ironman", "stark@gmail.com", "stark", new ArrayList<>()));
-			userService.saveUser(new User( "Black", "Widow", "scarlett", "widow@avengers.com", "avengers", "F", "10/01/85",
-					5555555, "123 Avengers Way", "LA", "CA", 99999, LocalDate.of(2021, 9, 13), "unlimited", new ArrayList<>()));
+			userService.saveUser(new User( "Cameron", "Tomlin", "ctvaan", "ctvaan@gmail.com", "theflash", "M", "11/01/90",
+					9221404, "10090 Silver Stirrup Dr", "Colorado Springs", "CO", 80925, LocalDate.of(2021, 9, 13), "unlimited", new ArrayList<>()));
+			userService.saveUser(new User( "Audrey", "Clark", "aclark", "audrey@gmail.com", "doggos", "F", "01/13/93",
+					9193779, "3138 Apperly Way", "Rancho Cordova", "CA", 95670, LocalDate.of(2021, 9, 13), "unlimited", new ArrayList<>()));
 
-			//userService.addRoleToUser("ironman", "ROLE_ADMIN");
-			userService.addRoleToUser("scarlett", "ROLE_ADMIN");
+
+			userService.addRoleToUser("ctvaan", "ROLE_ADMIN");
+			userService.addRoleToUser("aclark", "ROLE_ADMIN");
 
 		};
 
 	}
-
 
 }

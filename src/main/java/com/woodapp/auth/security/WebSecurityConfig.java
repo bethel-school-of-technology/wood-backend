@@ -30,11 +30,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-//        auth.inMemoryAuthentication()
-//                .withUser("ironman").password(passwordEncoder().encode("stark"))
-//                .roles("ROLE_USER")
-//                .and()
-//                .withUser("blackwidow").password(passwordEncoder().encode("scarlett")).roles("ROLE_ADMIN");
     }
 
     @Override
@@ -43,7 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/token/refresh/**").permitAll(); //whatever we don't need to secure would go here, or overriding security rules
+        http.authorizeRequests().antMatchers(GET, "/api/login/**", "/api/user/register/**","/api/token/refresh/**").permitAll(); //whatever we don't need to secure would go here, or overriding security rules
+        http.authorizeRequests().antMatchers(POST, "/api/login/**", "/api/user/register/**","/api/token/refresh/**").permitAll();
         http.authorizeRequests().antMatchers(GET,"/api/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeRequests().antMatchers(POST,"/api/user/save/**").hasAnyAuthority("ROLE_MANAGER");
         http.authorizeRequests().antMatchers(DELETE,"/api/user/delete/**").hasAnyAuthority("ROLE_ADMIN");
